@@ -5,11 +5,24 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
+
 const style = {fontFamily: 'Arial', color: '#FF0000'};
+
+function repoTable() {
+  return (
+    <table style="{ style }" className="display">
+      <tr>
+        <td>你好棒!</td>
+      </tr>
+    </table>
+  );
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <h1 style= {style}>Hello world!</h1>
+    <div>
+    <repoTable/>
+    </div>
   </React.StrictMode>,
   document.getElementById('root')
 );
