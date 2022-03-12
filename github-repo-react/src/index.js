@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 // 1-2 引入用npm載下來的React和ReactDOM
 
@@ -10,13 +10,60 @@ import 'bootstrap-css-only/css/bootstrap.min.css';
 import 'mdbreact/dist/css/mdb.css';
 import { MDBDataTableV5 } from 'mdbreact';
 
+
 // const style = {fontFamily: 'Arial', color: '#FF0000'};
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state={
+      repoName: null
+    }
+    this.handleClick=this.handleClick.bind(this);
+  }
+
+  
+  handleClick() {
+    fetch( 'https://api.github.com/users/yilongasus/repos',{method:"GET"})
+    .then(res => res.json())
+    .then(data => {
+          /*接到request data後要做的事情*/
+          for (let i = 0; i < data.length ; i ++) {
+            this.setState({
+              name: data[i]['name'],
+              stargazers_count: data[i]['stargazers_count'],
+              html_url: data[i]['html_url'],              
+            });
+          }         
+    })
+    .catch(e => {
+        /*發生錯誤時要做的事情*/
+        console.log(e);
+    })
+  }
+  
+
+
+  render() {
+      return (
+        <div className="App">
+              {this.state.name}
+              {this.state.stargazers_count}
+              {this.state.html_url}
+          <button onClick={this.handleClick}>yilongasus repo data</button>
+    	  </div>
+
+    )
+  }
+};
+
+
 
 export default function Basic() {
   const [datatable, setDatatable] = React.useState({
+
     columns: [
       {
-        label: 'Name',
+        label: '名稱',
         field: 'name',
         width: 150,
         attributes: {
@@ -25,117 +72,56 @@ export default function Basic() {
         },
       },
       {
-        label: 'Position',
-        field: 'position',
+        label: '支持和讚許數',
+        field: 'stargazers_count',
         width: 270,
       },
       {
-        label: 'Office',
-        field: 'office',
+        label: '網址',
+        field: 'html_url',
         width: 200,
-      },
-      {
-        label: 'Age',
-        field: 'age',
-        sort: 'asc',
-        width: 100,
-      },
-      {
-        label: 'Start date',
-        field: 'date',
-        sort: 'disabled',
-        width: 150,
-      },
-      {
-        label: 'Salary',
-        field: 'salary',
-        sort: 'disabled',
-        width: 100,
-      },
+      }
     ],
     rows: [
       {
         name: 'Jennifer Acosta',
-        position: 'Junior Javascript Developer',
-        office: 'Edinburgh',
-        age: '43',
-        date: '2013/02/01',
-        salary: '$75',
+        stargazers_count: 'Junior Javascript Developer',
+        html_url: 'Edinburgh'
       },
       {
-        name: 'Cara Stevens',
-        position: 'Sales Assistant',
-        office: 'New York',
-        age: '46',
-        date: '2011/12/06',
-        salary: '$145',
+        name: 'Jennifer Acosta',
+        stargazers_count: 'Junior Javascript Developer',
+        html_url: 'Edinburgh'
       },
       {
-        name: 'Hermione Butler',
-        position: 'Regional Director',
-        office: 'London',
-        age: '47',
-        date: '2011/03/21',
-        salary: '$356',
+        name: 'Jennifer Acosta',
+        stargazers_count: 'Junior Javascript Developer',
+        html_url: 'Edinburgh'
       },
       {
-        name: 'Lael Greer',
-        position: 'Systems Administrator',
-        office: 'London',
-        age: '21',
-        date: '2009/02/27',
-        salary: '$103',
+        name: 'Jennifer Acosta',
+        stargazers_count: 'Junior Javascript Developer',
+        html_url: 'Edinburgh'
       },
       {
-        name: 'Jonas Alexander',
-        position: 'Developer',
-        office: 'San Francisco',
-        age: '30',
-        date: '2010/07/14',
-        salary: '$86',
-      },
-      {
-        name: 'Shad Decker',
-        position: 'Regional Director',
-        office: 'Edinburgh',
-        age: '51',
-        date: '2008/11/13',
-        salary: '$183',
-      },
-      {
-        name: 'Michael Bruce',
-        position: 'Javascript Developer',
-        office: 'Singapore',
-        age: '29',
-        date: '2011/06/27',
-        salary: '$183',
-      },
-      {
-        name: 'Donna Snider',
-        position: 'Customer Support',
-        office: 'New York',
-        age: '27',
-        date: '2011/01/25',
-        salary: '$112',
-      },
-    ],
-  });
+        name: 'Jennifer Acosta',
+        stargazers_count: 'Junior Javascript Developer',
+        html_url: 'Edinburgh'
+      }       
+    ]
+ 
 
+});
   return <MDBDataTableV5 hover entriesOptions={[5, 20, 25]} entries={5} pagesAmount={4} data={datatable} />;
 }
 
-function RepoTable(){
-  return(
-    <table id="myTable" className='display'>
-    </table>
-  );
-}
+
 
 
 ReactDOM.render(
   <React.StrictMode>
     <div>
-    <RepoTable/>
+    <App/>
     <Basic></Basic>
     </div>
   </React.StrictMode>,
