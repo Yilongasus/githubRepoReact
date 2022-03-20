@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
     const getGithubApi = async () => {
         const response = await fetch('https://api.github.com/users/Dcard/repos');
         const data = await response.json();
@@ -26,6 +27,13 @@ $(document).ready(function(){
                     render: function(data) {
                         return '<a href='+ data +' target=_blank>前往觀看</a>'
                     }
+                },
+                { 
+                    title: '點擊',
+                    data: 'html_url',
+                    render: function(data) {
+                        return '<button class=btn>按鈕</button>'
+                    }                    
                 }
             ],
             lengthChange: true,
@@ -33,6 +41,8 @@ $(document).ready(function(){
 
             lengthMenu: [10, 20, 30, 100],
             // 頁數選單數值
+
+            select: 'multi+shift',
 
             pageLength: 10,
             // 每頁預設個數
@@ -66,4 +76,11 @@ $(document).ready(function(){
     }
 
     getGithubApi();
+
+    // $('td').bind('click', function(event){
+    //     alert(123);
+    //     return false;
+    // });
+
+
 });
